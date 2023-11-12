@@ -1,0 +1,8 @@
+parseable: true
+
+exclude_paths:
+  - group_vars/
+  - host_vars/
+
+warn_list:
+  - fqcn-builtins

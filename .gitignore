@@ -1,0 +1,10 @@
+.vscode
+*.iml
+*.pyc
+*.retry
+**/*.retry
+callbacks/anstomlog.pyc
+*.tfvars
+*.log
+.terraform*
+*tfstate*

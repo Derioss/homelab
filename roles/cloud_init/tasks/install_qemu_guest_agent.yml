@@ -1,0 +1,9 @@
+---
+- name: Install libguestfs-tools on proxmox nodes
+  ansible.builtin.apt:
+    name: libguestfs-tools
+    update_cache: true
+
+- name: Install qemu-guest-agent in all images in directory "{{ pvesm_local_storage_path }}/{{ pvesm_local_storage_iso_subpath }}"
+  loop: "{{ iso_images_to_download }}"
+  ansible.builtin.command: virt-customize -a "{{ pvesm_local_storage_path }}/{{ pvesm_local_storage_iso_subpath }}/{{ item.filename }}" --install qemu-guest-agent

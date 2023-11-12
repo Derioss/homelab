@@ -1,0 +1,20 @@
+---
+- name: Download ISO images
+  import_tasks: download_iso_images.yml
+  become: true
+
+- name: Install qemu-guest-agent in iso images
+  import_tasks: install_qemu_guest_agent.yml
+  become: true
+
+- name: Setup cloud-init for alle downloaded ISO images that has cloud-init
+  loop: "{{ iso_images_to_download }}"
+  include_tasks: create_cloud_init_template.yml
+  when: item.is_cloud_init_image is defined
+  vars:
+    vm_id: "{{ item.cloud_init_vm_id }}"
+    bridge: "{{ item.bridge }}"
+    vm_instance_template_name: "{{ item.cloud_init_vm_instance_template_name }}"
+    iso_image_path: "{{ pvesm_local_storage_path }}/{{ pvesm_local_storage_iso_subpath }}/{{ item.filename }}"
+    storage: local-lvm
+    enable_qemu_guest_agent: "{{ item.enable_qemu_guest_agent }}"
