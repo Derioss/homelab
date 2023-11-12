@@ -1,0 +1,36 @@
+vms = [
+  {
+    name      = "k8s-control-1"
+    pve_node  = "pve2"
+    desc      = "Kubernetes control plane node 1"
+    ip        = "<IP address in CIDR notation>
+    memory    = 4096
+    cores     = 4
+    disk_size = "30G"
+  },
+  {
+    name      = "k8s-worker-1"
+    pve_node  = "pve1"
+    desc      = "Kubernetes worker node 1"
+    ip        = "<IP address in CIDR notation>"
+    memory    = 4096
+    cores     = 2
+    disk_size = "120G"
+  },
+  {
+    name      = "k8s-worker-2"
+    pve_node  = "pve2"
+    desc      = "Kubernetes worker node 2"
+    ip        = "<IP address in CIDR notation>"
+    memory    = 4096
+    cores     = 2
+    disk_size = "120G"
+  }
+]
+
+pm_user         = ""
+pm_host         = ""
+pm_password     = ""
+pm_tls_insecure = true
+ssh_public_key  = ""
+gateway_ip      = "ip no CIDR"
