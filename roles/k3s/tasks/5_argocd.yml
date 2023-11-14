@@ -1,0 +1,7 @@
+---
+- name: Install argocd
+  ansible.builtin.shell: |
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "{{ k3s_argocd_service_type }}"}}'
+  when: k3s_argocd

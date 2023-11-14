@@ -1,0 +1,4 @@
+---
+common_apt_list:
+  - net-tools
+  - curl

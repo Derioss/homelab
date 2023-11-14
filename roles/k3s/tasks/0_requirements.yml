@@ -1,0 +1,34 @@
+---
+- name: Enable IPv4 forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
+    reload: true
+
+- name: Enable IPv6 forwarding
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: "1"
+    state: present
+    reload: true
+
+- name: fix dns servers in resolv.conf
+  ansible.builtin.template:
+    src: resolv.conf.j2
+    dest: /run/systemd/resolve/resolv.conf
+    owner: systemd-resolve
+    group: systemd-resolve
+    mode: '0644'
+  when:
+    - k3s_dns_servers | length() > 0
+
+- name: install nfs-common on the servers
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - nfs-common
+    - open-iscsi
+    - jq

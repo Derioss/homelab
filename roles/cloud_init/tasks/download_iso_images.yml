@@ -4,3 +4,6 @@
   ansible.builtin.get_url:
     url: "{{ item.url }}"
     dest: "{{ pvesm_local_storage_path }}/{{ pvesm_local_storage_iso_subpath }}/{{ item.filename }}"
+    mode: '0644'
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"

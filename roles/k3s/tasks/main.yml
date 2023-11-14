@@ -1,0 +1,50 @@
+---
+- name: Requirement
+  ansible.builtin.include_tasks:
+    file: 0_requirements.yml
+    apply:
+      tags:
+        - initiate
+  tags: initiate
+
+- name: Download
+  ansible.builtin.include_tasks:
+    file: 1_download.yml
+    apply:
+      tags:
+        - initiate
+  tags: initiate
+
+- name: Configure master
+  ansible.builtin.include_tasks:
+    file: 2_master.yml
+    apply:
+      tags:
+        - initiate
+  tags: initiate
+  when: k3s_master
+
+- name: Configure node
+  ansible.builtin.include_tasks:
+    file: 2_node.yml
+    apply:
+      tags:
+        - initiate
+  tags: initiate
+  when: not k3s_master
+
+- name: Postconfig
+  ansible.builtin.import_tasks:
+    file: 3_post_config.yml
+  tags: postconfig
+  delegate_to: localhost
+  run_once: true
+  become: false
+
+- name: Deploy longhorn
+  ansible.builtin.import_tasks:
+    file: 4_longhorn.yml
+  tags: longhorn
+  delegate_to: localhost
+  run_once: true
+  become: false

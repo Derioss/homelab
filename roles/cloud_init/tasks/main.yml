@@ -1,15 +1,15 @@
 ---
 - name: Download ISO images
-  import_tasks: download_iso_images.yml
+  ansible.builtin.import_tasks: download_iso_images.yml
   become: true
 
 - name: Install qemu-guest-agent in iso images
-  import_tasks: install_qemu_guest_agent.yml
+  ansible.builtin.import_tasks: install_qemu_guest_agent.yml
   become: true
 
 - name: Setup cloud-init for alle downloaded ISO images that has cloud-init
   loop: "{{ iso_images_to_download }}"
-  include_tasks: create_cloud_init_template.yml
+  ansible.builtin.include_tasks: create_cloud_init_template.yml
   when: item.is_cloud_init_image is defined
   vars:
     vm_id: "{{ item.cloud_init_vm_id }}"
