@@ -29,6 +29,11 @@ ExecStartPre=-/sbin/modprobe overlay
 ExecStart=/usr/local/bin/k3s \
 server \
 --write-kubeconfig-mode 644 \
+{% if k3s_cilium is sameas true %}
+--disable=traefik \
+--disable-network-policy \
+--disable-kube-proxy \
+{% endif %}
 {% if k3s_metallb is sameas true %}
 --disable servicelb \
 {% endif %}

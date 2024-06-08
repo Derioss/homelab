@@ -41,10 +41,26 @@
   run_once: true
   become: false
 
-- name: Deploy longhorn
+- name: Deploy cilium
   ansible.builtin.import_tasks:
-    file: 4_longhorn.yml
+    file: 4_cilium.yml
   tags: longhorn
   delegate_to: localhost
   run_once: true
   become: false
+
+#- name: Deploy argocd
+#  ansible.builtin.import_tasks:
+#    file: 5_longhorn.yml
+#  tags: longhorn
+#  delegate_to: localhost
+#  run_once: true
+#  become: false
+#
+#- name: Deploy longhorn
+#  ansible.builtin.import_tasks:
+#    file: 6_longhorn.yml
+#  tags: longhorn
+#  delegate_to: localhost
+#  run_once: true
+#  become: false

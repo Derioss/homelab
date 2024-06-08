@@ -13,6 +13,7 @@ k3s_argocd_service_type: LoadBalancer
 k3s_dns_servers: ['10.10.0.1', '192.168.1.1']
 k3s_longhorn: true
 k3s_longhorn_version: "v1.5.3"
-k3s_traefik_dev: true
+k3s_traefik_dev: false
 k3s_mkcert: true
 k3s_domain: ".lab"
+k3s_cilium: true

@@ -70,12 +70,12 @@
 
 - name: Cert
   when: k3s_mkcert
+  tags: never
   block:
-    - name: install nfs-common on the servers
+    - name: install mkcert on the servers
       ansible.builtin.apt:
         name: "{{ item }}"
         state: present
-        update_cache: true
       loop:
         - mkcert
         - libnss3-tools
