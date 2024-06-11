@@ -1,19 +1,4 @@
 ---
-- name: Install cilium
-  ansible.builtin.shell: |
-      helm repo add cilium https://helm.cilium.io/ &&
-      helm upgrade --install cilium cilium/cilium --version="{{ cilium_version }}" \
-      --set global.tag="v{{ cilium_version }}" --set global.containerRuntime.integration="containerd" \
-      --set global.containerRuntime.socketPath="/var/run/k3s/containerd/containerd.sock" \
-      --set global.kubeProxyReplacement="strict" \
-      --set global.bpf.masquerade="true" \
-      --set ingressController.enabled=true \
-      --set ingressController.default=true \
-      --namespace cilium \
-      --create-namespace \
-  when: k3s_cilium
-
-
 - name: Download cilium cli
   ansible.builtin.get_url:
     url: https://github.com/cilium/cilium-cli/releases/download/v{{ cilium_cli_version }}/cilium-linux-amd64.tar.gz
@@ -31,3 +16,31 @@
     owner: root
     group: root
   become: true
+
+- name: Install cilium
+  ansible.builtin.shell: cilium install --set kubeProxyReplacement=true
+  ignore_errors: true
+
+- name: Activate hubble
+  ansible.builtin.command: cilium hubble enable
+
+- name: Download hubble cli
+  ansible.builtin.get_url:
+    url: https://github.com/cilium/hubble/releases/download/v{{ cilium_hubble_version }}/hubble-linux-amd64.tar.gz
+    dest: /tmp/
+    mode: '0755'
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+  become: true
+
+- name: Install hubble cli
+  ansible.builtin.unarchive:
+    src: /tmp/hubble-linux-amd64.tar.gz
+    dest: /usr/local/bin
+    mode: '0755'
+    owner: root
+    group: root
+  become: true
+
+- name: port-forward hubble
+  ansible.builtin.command: cilium hubble port-forward&

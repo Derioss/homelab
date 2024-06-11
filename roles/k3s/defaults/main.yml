@@ -1,4 +1,5 @@
 ---
 k3s_master: false
 cilium_version: "1.14.2"
-cilium_cli_version: "0.1.10"
+cilium_cli_version: "0.16.10"
+cilium_hubble_version: "0.13.4"
